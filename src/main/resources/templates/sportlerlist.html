@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Reservation List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container">
+
+		<h1>Sportler</h1>
+		<img src="sport.jpg" width="25%" height="25%" alt="Sport"> <br />
+		<br />
+
+		<h5>Meine Sportler</h5>
+
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>Vorname</th>
+					<th>Nachname</th>
+					<th>Details</th>
+					<th>Erfolg</th>
+					<th>Status</th>
+					<th>Color</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="sportler : ${listOfSportler}">
+					<td><span th:text="${sportler.firstName}"> firstName </span></td>
+					<td><span th:text="${sportler.lastName}"> lastName </span></td>
+					<td><span th:text="${sportler.details}"> details </span></td>
+					<td><span th:text="${sportler.success}"> success </span></td>
+					<td><span th:text="${sportler.state}"> state </span></td>
+					<td><span th:text="${sportler.color}"> color </span></td>
+					<td><span th:text="${#dates.format(sportler.date, 'dd.MMM.yyyy')}"> date </span></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<br />
+
+		<form action="#" th:action="@{/sportler}" th:object="${sportler}"
+			method="post">
+			<p>
+				FirstName: <input class="input-group mb-3" type="text"
+					th:field="*{firstName}" />
+			</p>
+			<p>
+				LastName: <input class="input-group mb-3" type="text"
+					th:field="*{lastName}" />
+			</p>
+
+			<div>
+				<input type="color" id="body" name="body" value="*{color}"
+					th:field="*{color}"> <label for="body">Favorite
+					Color</label>
+			</div>
+
+			<div>
+				<input type="date" id="date" name="date" value="*{date}"
+					th:field="*{date}"> <label for="date">Date of Birth</label>
+			</div>
+
+			<div>
+				<p>Details:</p>
+
+				<select th:field="*{details}">
+					<option th:each="detailValue : ${details}"
+						th:value="${detailValue}" th:text="${detailValue}"></option>
+				</select>
+			</div>
+			<br />
+
+			<p>Erfolge:</p>
+			<div th:each="checkValue: ${successes}">
+				<input type="checkbox" th:field="*{success}"
+					th:value="${checkValue}" /> <label
+					th:for="${#ids.prev('success')}" th:text="${checkValue}"></label>
+			</div>
+			<br />
+
+			<p>Status:</p>
+			<div th:each="radioValue: ${states}">
+				<input type="radio" th:field="*{state}" th:value="${radioValue}" />
+				<label th:for="${#ids.prev('state')}" th:text="${radioValue}"></label>
+			</div>
+			<br />
+
+			<p>
+				<input class="btn btn-success" type="submit" value="Bestätigen" />
+				<a href="/sportler"> <input class="btn btn-warning"
+					type="button" value="Clear" />
+				</a>
+			</p>
+
+			<p class="form-group">
+				<a class="btn btn-danger" href="deleteSportler">Delete last
+					Sportler</a>
+			</p>
+
+		</form>
+
+
+
+	</div>
+</body>
+</html>
